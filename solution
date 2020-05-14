@@ -1,0 +1,127 @@
+package UseCase;
+import java.util.Scanner;
+public class Usecase {
+	public static void main(String args[]) {
+		java.util.List<Car> list=new java.util.ArrayList<>();
+		boolean flag=true;
+		while(flag==true)
+		{
+			System.out.println("Enter a Command:" + "\n(add/update/list/quit)");
+		Scanner sc=new Scanner(System.in);
+		String command=sc.next();
+		if(command.equalsIgnoreCase("add")) {
+			System.out.println("Enter The Make");
+			String make;
+			String model;
+			int year;
+			float cost;
+			try {
+				make = sc.next();
+				System.out.println("Enter The Model");
+				model = sc.next();
+				System.out.println("Enter The Year");
+				year = sc.nextInt();
+				System.out.println("Enter The Cost($)");
+				cost = sc.nextFloat();
+				list.add(new Car(make,model,year,cost));
+				System.out.println("Car has been added successfully...!!!");
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				System.out.println("Input Mismatch");
+			}
+			flag=true;
+		}
+		else if(command.equalsIgnoreCase("update")) {
+			System.out.println("Enter The car Details(Make/Model format);");
+			String detail=sc.next();
+			String[] arr=detail.split("/");
+			String make1=arr[0];
+			String model1=arr[1];
+			System.out.println("Enter Year");
+			int newYear = sc.nextInt();
+			System.out.println("Enter Price");
+			int newPrice = sc.nextInt();
+			for(Car car:list) {
+				if(make1.equalsIgnoreCase(car.getMake())&&model1.equalsIgnoreCase(car.getModel())) {
+					car.setYear(newYear);
+					car.setPrice(newPrice);
+				}				
+			}
+			flag=true;
+		}
+		else if(command.equalsIgnoreCase("list"))
+		{
+			if(list.size()==0) {
+				System.out.println("No cars available");
+			}
+			List.printList(list);
+			flag=true;
+		}
+		else if(command.equalsIgnoreCase("quit"))
+		{
+			System.out.println("Thank You...!!!");
+			flag=false;
+		}
+		else
+		{
+			System.out.println("Enter a valid command");
+			flag=true;
+		}
+		}
+	}
+}
+
+class Car{
+	
+	public Car(String make, String model, int year, float price) {
+		super();
+		this.make = make;
+		this.model = model;
+		this.year = year;
+		this.price = price;
+	}
+	private String make;
+	public String getMake() {
+		return make;
+	}
+	public void setMake(String make) {
+		this.make = make;
+	}
+	public String getModel() {
+		return model;
+	}
+	public void setModel(String model) {
+		this.model = model;
+	}
+	public int getYear() {
+		return year;
+	}
+	public void setYear(int year) {
+		this.year = year;
+	}
+	public float getPrice() {
+		return price;
+	}
+	public void setPrice(float price) {
+		this.price = price;
+	}
+	private String model;
+	private int year;
+	private float price;
+}
+
+class List{
+	static void printList(java.util.List<Car> list) {
+		float totalInventory=0;
+		System.out.println("----------------------------");
+		for (Car car : list) {
+			
+			System.out.println((list.indexOf(car)+1) + ". " + car.getYear()+" " +car.getMake()+ " "+car.getModel()+" $"+car.getPrice());
+			  totalInventory = totalInventory + car.getPrice();
+		}	
+		System.out.println("----------------------------");
+		System.out.println("Number of cars:"+list.size());
+		System.out.println("Total Inventory:$"+totalInventory);
+		System.out.println("----------------------------");
+	}
+}
